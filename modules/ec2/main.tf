@@ -5,6 +5,8 @@ resource "aws_instance" "main" {
   instance_type               = var.instance_type
   subnet_id                   = var.subnet_ids[count.index]
   vpc_security_group_ids      = [aws_security_group.web.id]
+  user_data_replace_on_change = true
+  user_data = file("./scripts/httpd.sh")
   key_name                    = var.key_name
   tags = {
     Name = "terraform-training"
@@ -13,14 +15,14 @@ resource "aws_instance" "main" {
 # Create security group
 
 resource "aws_security_group" "web" {
-  name        = "allow traffic for web"
-  description = "Allow TLS inbound traffic"
+  name        = "my-sg"
+  description = "allow traffic for web"
   vpc_id      = var.vpc_id
 
   dynamic "ingress" {
     for_each = var.web_ingress_rules
     content {
-      description = "some description"
+      description = "describe"
       from_port   = ingress.value.port
       to_port     = ingress.value.port
       protocol    = ingress.value.protocol
@@ -40,3 +42,4 @@ resource "aws_security_group" "web" {
     Name = "web_security_rules"
   }
 }
+

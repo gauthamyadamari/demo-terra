@@ -1,5 +1,5 @@
 variable "ec2_count" {
-  default = 1
+  default = 2
 }
 
 variable "ami" {
@@ -10,11 +10,12 @@ variable "public_ip" {
 variable "instance_type" {
   default = "t2.micro"
 }
-variable "subnet_ids" {
-}
-variable "key_name" {
+variable "subnet_ids" {}
 
+variable "key_name" {
+  default = "mamidi"
 }
+
 variable "web_ingress_rules" {
   type = map(object({
     port        = number
@@ -22,7 +23,9 @@ variable "web_ingress_rules" {
     cidr_blocks = list(string)
     description = string
   }))
-}
-variable "vpc_id" {
+}    
 
+variable "vpc_id" {
+  type = string
+  
 }

@@ -6,18 +6,24 @@ variable "tg_port" {
   default = "80"
 }
 
+variable "targrp_count" {
+  default = 2
+}
+
+variable "subnet_ids" {
+  
+}
+
 variable "tg_protocol" {
   default = "HTTP"
 }
 
-variable "vpc_id" {
+variable "vpc_id" {}
 
-}
 variable "alb_name" {
-  default = "myapp-alb"
+  default = "my-alb"
 }
-variable "subnet_ids" {
-}
+
 variable "alb_ingress_rules" {
   type = map(object({
     port        = number

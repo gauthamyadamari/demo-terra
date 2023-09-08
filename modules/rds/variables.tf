@@ -5,13 +5,13 @@ variable "storage" {
   default = 20
 }
 variable "db_name" {
-  default = "jhcdb"
+  default = "manudb"
 }
 variable "username" {
-  default = "javahome"
+  default = "mamidi"
 }
 variable "password" {
-  default = "JavaHome3214"
+  default = "mamidi1234"
 }
 variable "vpc_id" {
 }

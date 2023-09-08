@@ -6,7 +6,7 @@ resource "aws_lb_target_group" "main" {
   vpc_id   = var.vpc_id
 }
 
-resource "aws_lb" "my_alb" {
+resource "aws_lb" "my-alb" {
   name               = var.alb_name
   internal           = false
   load_balancer_type = "application"
@@ -15,7 +15,7 @@ resource "aws_lb" "my_alb" {
 }
 
 resource "aws_lb_listener" "my_listener" {
-  load_balancer_arn = aws_lb.my_alb.arn
+  load_balancer_arn = aws_lb.my-alb.arn
   port              = 80
   protocol          = "HTTP"
 
@@ -32,7 +32,7 @@ resource "aws_lb_target_group_attachment" "main" {
 }
 
 resource "aws_security_group" "alb" {
-  name        = "allow traffic for alb"
+  name        = "alb-sg"
   description = "Allow TLS inbound traffic"
   vpc_id      = var.vpc_id
 

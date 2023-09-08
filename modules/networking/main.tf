@@ -19,6 +19,7 @@ resource "aws_subnet" "public" {
   count             = var.subnet_count
   vpc_id            = aws_vpc.main.id
   availability_zone = local.az_names[count.index]
+  map_public_ip_on_launch = true
   cidr_block        = var.pub_cidrs[count.index]
 }
 # associate public subnets with public route table
@@ -43,4 +44,14 @@ resource "aws_route_table_association" "private" {
   count          = var.subnet_count
   subnet_id      = aws_subnet.private.*.id[count.index]
   route_table_id = aws_route_table.private.id
+}
+
+resource "aws_instance" "nat-instance" {
+  ami           = var.nat_ami
+  instance_type = var.nat_instance_type
+  subnet_id = aws_subnet.public.*.id[0]
+  associate_public_ip_address = true
+  tags = {
+    Name = "nat-instance"
+  }
 }

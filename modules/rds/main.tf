@@ -9,17 +9,20 @@ resource "aws_db_subnet_group" "db" {
 # Create RDS Instance 
 resource "aws_db_instance" "default" {
   allocated_storage      = var.storage
+  storage_type           = "gp2"
   db_name                = var.db_name
-  engine                 = "mysql"
-  engine_version         = "5.7"
-  instance_class         = "db.t3.micro"
+  engine                 = "postgres"
+  engine_version         = "14"
+  instance_class         = "db.t3.medium"
   username               = var.username
   password               = var.password
-  parameter_group_name   = "default.mysql5.7"
+  parameter_group_name   = "default.postgres14"
   skip_final_snapshot    = true
+  publicly_accessible    = false 
   db_subnet_group_name   = aws_db_subnet_group.db.name
   vpc_security_group_ids = [aws_security_group.rds.id]
 }
+
 # Security Group
 resource "aws_security_group" "rds" {
   name        = "allow traffic for RDS"
@@ -36,7 +39,7 @@ resource "aws_security_group" "rds" {
       cidr_blocks     = ingress.value.cidr_blocks
       security_groups = ingress.value.security_groups
     }
-  }
+  } 
 
   egress {
     from_port        = 0
